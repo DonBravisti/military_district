@@ -10,4 +10,12 @@ class MilitaryPersonnel extends Model
     use HasFactory;
 
     protected $table = 'military_personnel';
+
+    protected $fillable = [
+        'surname',
+        'name',
+        'patronimyc',
+        'rank_id',
+        'speciality_id'
+    ];
 }
