@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MilitaryPersonnel;
 use App\Models\Rank;
-use App\Models\RankType;
 use App\Models\Speciality;
 
 class PersonnelController extends Controller
@@ -15,7 +14,14 @@ class PersonnelController extends Controller
         $ranks = Rank::all();
         $specialities = Speciality::all();
 
-        return view("index", compact("ranks", "specialities"));
+        return view("addSoldier", compact("ranks", "specialities"));
+    }
+
+    function showPersonnel()
+    {
+        $personnel = MilitaryPersonnel::all();
+
+        return view("personnel", compact("personnel"));
     }
 
     function send(Request $request)
@@ -39,6 +45,24 @@ class PersonnelController extends Controller
         ];
 
         MilitaryPersonnel::create($credentials);
-        return redirect()->route("index")->with("success", "Успешно добавлено");
+        return redirect()->route("add-soldier")->with("success", "Успешно добавлено");
+    }
+
+    public function search(Request $request)
+    {
+        $rankStr = $request->input('rank_search');
+        $rank = Rank::where('title', $rankStr)->first();
+
+        if ($rank == null) {
+            $personnel = MilitaryPersonnel::all();
+            return back()->withErrors('Неизвестное звание');
+        }
+
+        $rankId = $rank->id;
+        $personnel = MilitaryPersonnel::all()->where('rank_id', $rankId);
+
+        // echo $personnel;
+
+        return view('personnel', compact('personnel'));
     }
 }

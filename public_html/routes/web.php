@@ -13,7 +13,10 @@ use App\Http\Controllers\PersonnelController;
 |
 */
 
-Route::get("/", [PersonnelController::class,"showAddSoldier"])->name("index");
+Route::get("/", [PersonnelController::class, "index"])->name("index");
+Route::get("/add-soldier", [PersonnelController::class,"showAddSoldier"])->name("add-soldier");
+Route::get('/personnel', [PersonnelController::class, 'showPersonnel'])->name('personnel');
+Route::get('/search', [PersonnelController::class, 'search'])->name('search');
 
 Route::post("/send", [PersonnelController::class,"send"])->name("send");
 

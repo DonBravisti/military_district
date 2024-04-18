@@ -18,4 +18,16 @@ class MilitaryPersonnel extends Model
         'rank_id',
         'speciality_id'
     ];
+
+    function FIO() {
+        return "{$this->surname} {$this->name} {$this->patronimyc}";
+    }
+
+    function rank() {
+        return $this->belongsTo(Rank::class);
+    }
+
+    function speciality() {
+        return $this->belongsTo(Speciality::class);
+    }
 }
