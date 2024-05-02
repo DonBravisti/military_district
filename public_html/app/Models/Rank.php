@@ -9,7 +9,13 @@ class Rank extends Model
 {
     use HasFactory;
 
-    function militaryPersonnel() {
+    function militaryPersonnel()
+    {
         return $this->hasMany(MilitaryPersonnel::class);
+    }
+
+    public function rankType()
+    {
+        return $this->belongsTo(RankType::class);
     }
 }

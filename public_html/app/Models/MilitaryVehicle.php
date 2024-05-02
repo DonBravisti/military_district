@@ -5,12 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RankType extends Model
+class MilitaryVehicle extends Model
 {
     use HasFactory;
-
-    function ranks()
-    {
-        return $this->hasMany(Rank::class);
-    }
 }
