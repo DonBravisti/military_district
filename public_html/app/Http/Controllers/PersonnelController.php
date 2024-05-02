@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Models\MilitaryPersonnel;
 use App\Models\Rank;
+use App\Models\RankType;
 use App\Models\Speciality;
 
 class PersonnelController extends Controller
@@ -17,11 +19,28 @@ class PersonnelController extends Controller
         return view("addSoldier", compact("ranks", "specialities"));
     }
 
-    function showPersonnel()
+    function showPersonnel($id = null)
     {
-        $personnel = MilitaryPersonnel::all();
+        if ($id == null) {
+            $personnel = MilitaryPersonnel::all();
+            return view("personnel", compact("personnel"));
+        }
 
+        $personnel = new Collection;
+        $correspondingRanks = RankType::findOrFail($id)->ranks;
+        foreach ($correspondingRanks as $rank) {
+            $personnel = $personnel->merge($rank->militaryPersonnel);
+            // print_r($rank->militaryPersonnel);
+        }
+        // print_r($personnel->toArray());
         return view("personnel", compact("personnel"));
+    }
+
+    function showRankTypes()
+    {
+        $rankTypes = RankType::all();
+
+        return view('rankTypes', compact('rankTypes'));
     }
 
     function send(Request $request)
