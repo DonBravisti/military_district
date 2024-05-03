@@ -57,8 +57,6 @@
                 </div>
             </a>
 
-
-
             <a href="{{ route('ranks') }}" class="menu_item">
                 <div>
                     <p>К списку воинских званий</p>
@@ -69,6 +67,17 @@
                     <p>К списку военных специализаций</p>
                 </div>
             </a>
+
+            <a href="{{ route('bases') }}" class="menu_item">
+                <div>
+                    <p>Воинские части</p>
+                </div>
+            </a>
+            {{-- <a href="{{ route('specs') }}" class="menu_item">
+                <div>
+                    <p>К списку военных специализаций</p>
+                </div>
+            </a> --}}
 
         </div>
     </section>

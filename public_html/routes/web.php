@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonnelController;
 use App\Http\Controllers\MilitaryController;
+use App\Models\Rank;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,7 @@ Route::get('/personnel', [PersonnelController::class, 'showPersonnel'])->name('p
 Route::get('/search', [PersonnelController::class, 'search'])->name('search');
 Route::get("/ranks", [MilitaryController::class, "showRanks"])->name("ranks");
 Route::get("/specs", [MilitaryController::class, "showSpecs"])->name("specs");
+Route::get("/bases", [MilitaryController::class, "showBases"])->name("bases");
 
 Route::get('/personnel/rank-types', [PersonnelController::class, 'showRankTypes'])->name('personnel.rank-types');
 Route::get('/personnel/{id?}', [PersonnelController::class, 'showPersonnel'])->name('personnel');

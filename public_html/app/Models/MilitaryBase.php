@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class MilitaryBase extends Model
 {
     use HasFactory;
+
+    function location() {
+        return $this->belongsTo(Location::class);
+    }
 }
