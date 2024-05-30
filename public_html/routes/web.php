@@ -35,6 +35,7 @@ Route::get('/personnel/{id?}', [PersonnelController::class, 'showPersonnel'])->n
 
 Route::post("/send", [PersonnelController::class,"send"])->name("send");
 Route::post("/filter", [MilitaryController::class,"filter"])->name("filter");
+Route::post('/filterPersonnel', [PersonnelController::class, 'filterPersonnel'])->name('filterPersonnel');
 
 // Route::get('/', function () {
 //     return view('welcome');

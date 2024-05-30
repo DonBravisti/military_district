@@ -8,6 +8,11 @@ use App\Models\MilitaryPersonnel;
 use App\Models\Rank;
 use App\Models\RankType;
 use App\Models\Speciality;
+use App\Models\Army;
+use App\Models\Corpus;
+use App\Models\Division;
+use App\Models\MilitaryBase;
+use App\Models\Personnel;
 
 class PersonnelController extends Controller
 {
@@ -21,9 +26,14 @@ class PersonnelController extends Controller
 
     function showPersonnel($id = null)
     {
+        $armies = Army::all();
+        $corpuses = Corpus::all();
+        $divisions = Division::all();
+        $bases = MilitaryBase::all();
+
         if ($id == null) {
             $personnel = MilitaryPersonnel::all();
-            return view("personnel", compact("personnel"));
+            return view("personnel", compact('armies', 'corpuses', 'divisions', 'bases', 'personnel'));
         }
 
         $personnel = new Collection;
@@ -33,8 +43,45 @@ class PersonnelController extends Controller
             // print_r($rank->militaryPersonnel);
         }
         // print_r($personnel->toArray());
-        return view("personnel", compact("personnel"));
+        return view("personnel", compact('armies', 'corpuses', 'divisions', 'bases', 'personnel'));
     }
+
+    public function filterPersonnel(Request $request)
+    {
+        $armies = Army::all();
+        $corpuses = Corpus::all();
+        $divisions = Division::all();
+        $bases = MilitaryBase::all();
+
+        $query = MilitaryPersonnel::query();
+
+        if ($request->army && $request->army != '0') {
+            $query->whereHas('militaryBase.brigade.division.corpus.army', function ($q) use ($request) {
+                $q->where('id', $request->army);
+            });
+        }
+
+        if ($request->corpus && $request->corpus != '0') {
+            $query->whereHas('militaryBase.brigade.division.corpus', function ($q) use ($request) {
+                $q->where('id', $request->corpus);
+            });
+        }
+
+        if ($request->division && $request->division != '0') {
+            $query->whereHas('militaryBase.brigade.division', function ($q) use ($request) {
+                $q->where('id', $request->division);
+            });
+        }
+
+        if ($request->base && $request->base != '0') {
+            $query->where('military_base_id', $request->base);
+        }
+
+        $personnel = $query->get();
+
+        return view('personnel', compact('armies', 'corpuses', 'divisions', 'bases', 'personnel'));
+    }
+
 
     function showRankTypes()
     {
@@ -96,7 +143,7 @@ class PersonnelController extends Controller
             "speciality_id" => $validated["speciality"],
         ];
 
-        $soldier =MilitaryPersonnel::find($id);
+        $soldier = MilitaryPersonnel::find($id);
         $soldier->update($credentials);
         return redirect()->route("personnel")->with("success", "Успешно добавлено");
     }

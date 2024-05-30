@@ -30,4 +30,8 @@ class MilitaryPersonnel extends Model
     function speciality() {
         return $this->belongsTo(Speciality::class);
     }
+
+    function militaryBase() {
+        return $this->belongsTo(MilitaryBase::class);
+    }
 }

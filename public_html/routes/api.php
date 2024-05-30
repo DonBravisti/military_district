@@ -21,3 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/corpuses', [ApiController::class, 'getCorpuses']);
 Route::get('/divisions', [ApiController::class, 'getDivisions']);
+Route::get('/corpuses', [ApiController::class, 'getCorpuses']);
+Route::get('/divisions', [ApiController::class, 'getDivisions']);
+Route::get('/bases', [ApiController::class, 'getBases']);
