@@ -71,4 +71,10 @@
             </table>
         </div>
     </section>
+
+    <script>
+        function ConfirmDelete() {
+            return confirm('Вы уверены, что хотите удалить эту запись?');
+        }
+    </script>
 @endsection
