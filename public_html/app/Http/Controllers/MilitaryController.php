@@ -31,7 +31,8 @@ class MilitaryController extends Controller
         return view('Specialities', compact('specs'));
     }
 
-    function showSpecPersonnel($id) {
+    function showSpecPersonnel($id)
+    {
         $spec = Speciality::find($id);
         $personnel = $spec->militaryPersonnel;
 
@@ -55,24 +56,55 @@ class MilitaryController extends Controller
         return view('militaryBase', compact('base'));
     }
 
-    function filter(Request $request) {
+    public function filter(Request $request)
+    {
         $armies = Army::all();
         $corpuses = Corpus::all();
         $divisions = Division::all();
 
-        $divisionId = $request->input('division');
-        if ($divisionId == '0') {
-            $bases = MilitaryBase::all();
-            return view('militaryBases', compact('armies', 'corpuses', 'divisions', 'bases'));
+        $query = MilitaryBase::query();
+
+        if ($request->army && $request->army != '0') {
+            $query->whereHas('brigade.division.corpus.army', function ($q) use ($request) {
+                $q->where('id', $request->army);
+            });
         }
-        $division = Division::with('brigades.militaryBases')->findOrFail($divisionId);
 
-        // Собрать все военные базы в одну коллекцию
-        $bases = $division->brigades->flatMap(function ($brigade) {
-            return $brigade->militaryBases;
-        });
+        if ($request->corpus && $request->corpus != '0') {
+            $query->whereHas('brigade.division.corpus', function ($q) use ($request) {
+                $q->where('id', $request->corpus);
+            });
+        }
 
-        // Вернуть представление с военными базами
+        if ($request->division && $request->division != '0') {
+            $query->whereHas('brigade.division', function ($q) use ($request) {
+                $q->where('id', $request->division);
+            });
+        }
+
+        $bases = $query->get();
+
         return view('militaryBases', compact('armies', 'corpuses', 'divisions', 'bases'));
     }
+
+
+    // function filter(Request $request) {
+    //     $armies = Army::all();
+    //     $corpuses = Corpus::all();
+    //     $divisions = Division::all();
+
+    //     $divisionId = $request->input('division');
+    //     if ($divisionId == '0') {
+    //         $bases = MilitaryBase::all();
+    //         return view('militaryBases', compact('armies', 'corpuses', 'divisions', 'bases'));
+    //     }
+    //     $division = Division::with('brigades.militaryBases')->findOrFail($divisionId);
+
+    //     // Собрать все военные базы в одну коллекцию
+    //     $bases = $division->brigades->flatMap(function ($brigade) {
+    //         return $brigade->militaryBases;
+    //     });
+
+    //     return view('militaryBases', compact('armies', 'corpuses', 'divisions', 'bases'));
+    // }
 }

@@ -69,8 +69,8 @@
             <form action="{{ route('filter') }}" method="POST">
                 @csrf
                 <div class="filter_field">
-                    <label for="">Армия</label>
-                    <select name="army" id="army" disabled>
+                    <label for="army">Армия</label>
+                    <select name="army" id="army">
                         <option value="0">Не выбрано</option>
                         @foreach ($armies as $army)
                             <option value="{{ $army->id }}">{{ $army->title }}</option>
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="filter_field">
-                    <label for="">Корпус</label>
+                    <label for="corpus">Корпус</label>
                     <select name="corpus" id="corpus" disabled>
                         <option value="0">Не выбрано</option>
                         @foreach ($corpuses as $corpus)
@@ -89,8 +89,8 @@
                 </div>
 
                 <div class="filter_field">
-                    <label for="">Дивизия</label>
-                    <select name="division" id="division">
+                    <label for="division">Дивизия</label>
+                    <select name="division" id="division" disabled>
                         <option value="0">Не выбрано</option>
                         @foreach ($divisions as $division)
                             <option value="{{ $division->id }}">{{ $division->title }}</option>
@@ -115,4 +115,47 @@
             @endforeach
         </div>
     </section>
+
+    <script>
+        document.getElementById('army').addEventListener('change', function() {
+            fetch(`/api/corpuses?army_id=${this.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    let corpusSelect = document.getElementById('corpus');
+                    corpusSelect.innerHTML = '<option value="0">Не выбрано</option>';
+                    data.corpuses.forEach(corpus => {
+                        corpusSelect.innerHTML +=
+                            `<option value="${corpus.id}">${corpus.title}</option>`;
+                    });
+                });
+        });
+
+        document.getElementById('corpus').addEventListener('change', function() {
+            fetch(`/api/divisions?corpus_id=${this.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    let divisionSelect = document.getElementById('division');
+                    divisionSelect.innerHTML = '<option value="0">Не выбрано</option>';
+                    data.divisions.forEach(division => {
+                        divisionSelect.innerHTML +=
+                            `<option value="${division.id}">${division.title}</option>`;
+                    });
+                });
+        });
+
+        //document.addEventListener('DOMContentLoaded', function() {
+        const armySelect = document.getElementById('army');
+        const corpusSelect = document.getElementById('corpus');
+        const divisionSelect = document.getElementById('division');
+
+        armySelect.addEventListener('change', function() {
+            corpusSelect.disabled = armySelect.value == '0';
+            divisionSelect.disabled = corpusSelect.value == '0';
+        });
+
+        corpusSelect.addEventListener('change', function() {
+            divisionSelect.disabled = corpusSelect.value == '0';
+        });
+        //});
+    </script>
 @endsection
