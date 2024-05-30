@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Army extends Model
 {
     use HasFactory;
+
+    public function corpuses()
+    {
+        return $this->hasMany(Corpus::class);
+    }
 }

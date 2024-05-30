@@ -12,4 +12,13 @@ class MilitaryBase extends Model
     function location() {
         return $this->belongsTo(Location::class);
     }
+
+    function commander() {
+        return $this->belongsTo(MilitaryPersonnel::class);
+    }
+
+    public function brigade()
+    {
+        return $this->belongsTo(Brigade::class);
+    }
 }

@@ -17,31 +17,31 @@
         }
     </style>
 
-    <form action="{{ route('send') }}" method="post">
-
+    <form action="{{ route('personnel.update', ['id' => $soldier->id]) }}" method="post">
         @csrf
+        @method('PUT')
 
         <label for="surname">Фамилия</label>
-        <input type="text" id="surname" name="surname" required>
+        <input type="text" id="surname" name="surname" value="{{ $soldier->surname }}" required>
         <label for="name">Имя</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" value="{{ $soldier->name }}" required>
         <label for="patronimyc">Отчество</label>
-        <input type="text" id="patronimyc" name="patronimyc" required>
+        <input type="text" id="patronimyc" name="patronimyc" value="{{ $soldier->patronimyc }}" required>
 
         <label for="rank">Воинское звание</label>
         <select name="rank" id="rank" required>
             @foreach ($ranks as $rank)
-                <option value="{{ $rank->id }}">{{ $rank->title }}</option>
+                <option @selected($rank->id == $soldier->rank->id) value="{{ $rank->id }}">{{ $rank->title }}</option>
             @endforeach
         </select>
 
         <label for="speciality">Специальность</label>
         <select name="speciality" id="speciality" required>
             @foreach ($specialities as $spec)
-                <option value="{{ $spec->id }}">{{ $spec->title }}</option>
+                <option @selected($spec->id == $soldier->speciality->id) value="{{ $spec->id }}">{{ $spec->title }}</option>
             @endforeach
         </select>
 
-        <button type="submit">Добавить</button>
+        <button type="submit">Обновить</button>
     </form>
 @endsection

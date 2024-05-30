@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Brigade extends Model
 {
     use HasFactory;
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
+
+    public function militaryBases()
+    {
+        return $this->hasMany(MilitaryBase::class);
+    }
 }

@@ -17,6 +17,11 @@
         th, td{
             text-align: center;
         }
+
+        .plan__controls {
+            display: flex;
+            align-items: center;
+        }
     </style>
 
     <section>
@@ -40,9 +45,26 @@
                 <tbody>
                     @foreach ($personnel as $soldier)
                         <tr>
-                            <td>{{ $soldier->FIO() }}</td>
+                            <td>{{ $soldier->FIO }}</td>
                             <td>{{ $soldier->rank->title }}</td>
                             <td>{{ $soldier->speciality->title }}</td>
+                            <td class="plan__controls">
+                                <form method="GET" action="{{ route('personnel.update-form', ['id' => $soldier->id]) }}">
+                                    @csrf
+                                    <button type="submit">
+                                        Редактировать
+                                    </button>
+                                </form>
+                                /
+                                <form method="POST" action="{{ route('personnel.remove', ['id' => $soldier->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit" onclick="return ConfirmDelete()">
+                                        Удалить
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

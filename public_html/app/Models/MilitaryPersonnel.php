@@ -19,7 +19,7 @@ class MilitaryPersonnel extends Model
         'speciality_id'
     ];
 
-    function FIO() {
+    function getFioAttribute() {
         return "{$this->surname} {$this->name} {$this->patronimyc}";
     }
 

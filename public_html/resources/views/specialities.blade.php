@@ -47,7 +47,7 @@
     <section class="main_menu">
         <div class="menu_items">
             @foreach ($specs as $spec)
-                <a href="" class="menu_item">
+                <a href="{{ route('specs.personnel', ['id' => $spec->id]) }}" class="menu_item">
                     <div>
                         <p>{{ $spec->title }}</p>
                     </div>
