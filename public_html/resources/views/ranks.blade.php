@@ -47,7 +47,7 @@
     <section class="main_menu">
         <div class="menu_items">
             @foreach ($ranks as $rank)
-                <a href="" class="menu_item">
+                <a href="{{ route('ranks.personnel', ['id' => $rank->id]) }}" class="menu_item">
                     <div>
                         <p>{{ $rank->title }}</p>
                     </div>

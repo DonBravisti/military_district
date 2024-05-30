@@ -24,6 +24,13 @@ class MilitaryController extends Controller
         return view('ranks', compact('ranks'));
     }
 
+    function showRankPersonnel($id) {
+        $rank = Rank::find($id);
+        $personnel = $rank->militaryPersonnel;
+
+        return view("personnel", compact("personnel"));
+    }
+
     function showSpecs()
     {
         $specs = Speciality::all();

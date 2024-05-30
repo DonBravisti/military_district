@@ -20,6 +20,7 @@ Route::get("/add-soldier", [PersonnelController::class,"showAddSoldier"])->name(
 Route::get('/personnel', [PersonnelController::class, 'showPersonnel'])->name('personnel');
 Route::get('/search', [PersonnelController::class, 'search'])->name('search');
 Route::get("/ranks", [MilitaryController::class, "showRanks"])->name("ranks");
+Route::get("/ranks/{id}/personnel", [MilitaryController::class, "showRankPersonnel"])->name("ranks.personnel");
 Route::get("/specs", [MilitaryController::class, "showSpecs"])->name("specs");
 Route::get("/specs/{id}/personnel", [MilitaryController::class, "showSpecPersonnel"])->name("specs.personnel");
 Route::get("/bases", [MilitaryController::class, "showBases"])->name("bases");
